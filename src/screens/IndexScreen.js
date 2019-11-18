@@ -1,65 +1,62 @@
 import React, {useContext} from 'react';
-import {Text, StyleSheet, View, FlatList, Button} from 'react-native';
-import BlogContext from '../context/BlogContext';
+import {Text, StyleSheet, View, FlatList, Button, TouchableOpacity} from 'react-native';
+import {Context as BlogContext} from '../context/BlogContext';
 import axios from 'axios';
-
-const IndexScreen = () => {
-  const {data, addBlogPost} = useContext(BlogContext);
-  const react_get = () => {
-    console.log("REACT-GET");
-    const params = new URLSearchParams();
-    params.append('data', 'value1');
-    params.append('success', 'value2');
-    console.log(params)
-    axios.get('https://whiterivetjeans.localtunnel.me/api/react-get/',{
-      params: params
-    }).then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const react_post = () => {
-    console.log("REACT-POST");
-    const params = new URLSearchParams();
-    params.append('data', 'value1');
-    params.append('success', 'value2');
-    console.log(params)
-    axios.post('https://whiterivetjeans.localtunnel.me/api/react-post/',params).then(function (response) {
-      console.log(response.request._response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
+const IndexScreen = ({navigation}) => {
+  const {state, addBlogPost, deleteBlogPost} = useContext(BlogContext);
 
   return (
     <View>
-      <Text> Index Screen </Text>
-      <Button title="Add Post" onPress = {addBlogPost}> </Button>
-      <Button title="React GET" onPress = {()=> react_get()}> </Button>
-      <Button title="React POST" onPress = {()=> react_post()}> </Button>
       <FlatList
-        data = {data}
+        data = {state}
         keyExtractor = {(dataitem) => dataitem.title}
         renderItem = {({item})=>{
-          return <Text> {item.title}</Text>;
+          return <TouchableOpacity onPress = {() => navigation.navigate('Show',{id: item.id})} >
+                  <View style={styles.row}>
+                    <Text style={styles.title}> {item.title}  - {item.id}</Text>
+                    <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                      <Icon style={styles.icon} name='trash'/>
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
         }}
       />
     </View>
   )};
 
+IndexScreen.navigationOptions = ({navigation}) => {
+  return {
+    headerRight: (
+      <TouchableOpacity onPress= {()=> navigation.navigate('Create')}>
+        <Icon style={styles.icon} name='plus'/>
+      </TouchableOpacity>
+    )
+  };
+};
+
 const styles = StyleSheet.create({
-  textStyle : {
-    fontSize : 30
+  row : {
+    flexDirection : 'row',
+    justifyContent : 'space-between',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'gray'
   },
-  textStyle2 : {
-    fontSize : 20
+  title : {
+    fontSize : 18
+  },
+  icon : {
+    fontSize : 24,
+    paddingRight: 10
   }
 });
 
 export default IndexScreen;
+
+
+// <Button title="Add Post" onPress = {addBlogPost}> </Button>
