@@ -3,10 +3,14 @@ import {Text, StyleSheet, View, FlatList, Button, TouchableOpacity} from 'react-
 import {Context as BlogContext} from '../context/BlogContext';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {AsyncStorage} from 'react-native';
+
 
 
 const IndexScreen = ({navigation}) => {
   const {state, addBlogPost, deleteBlogPost} = useContext(BlogContext);
+  AsyncStorage.setItem('key', 'value');
+  
 
   return (
     <View>
@@ -57,6 +61,3 @@ const styles = StyleSheet.create({
 });
 
 export default IndexScreen;
-
-
-// <Button title="Add Post" onPress = {addBlogPost}> </Button>

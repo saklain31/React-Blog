@@ -1,0 +1,8 @@
+npm install --save react-navigation
+npm install --save react-navigation-stack
+npm install --save react-native-gesture-handler
+npm install axios --save
+
+
+ICON SETUP:
+https://medium.com/@taufiq_ibrahim/using-react-native-vector-icons-9fbb8f1d983d

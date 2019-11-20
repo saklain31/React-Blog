@@ -1,10 +1,15 @@
 import React, {useContext} from 'react';
-import {Text, StyleSheet, View, FlatList, Button, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, FlatList, Button, TouchableOpacity,AsyncStorage} from 'react-native';
 import {Context} from '../context/BlogContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ShowScreen = ({navigation}) => {
   const {state} = useContext(Context);
+
+  await AsyncStorage.getItem('key').then(val){
+    console.log(val);
+  };
+  // console.log(key);
 
   const blogPost = state.find((blogpost) => blogpost.id === navigation.getParam('id'));
   console.log(blogPost);
